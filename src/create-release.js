@@ -7,8 +7,23 @@ async function run() {
     // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
     const github = new GitHub(process.env.GITHUB_TOKEN);
 
+    // Get owner and repo from workflows
+    const ownerworkflow = core.getInput('owner');
+    const repoworkflow = core.getInput('repo');
+
+    const { ownercontext, repocontext } = context.repo;
+
+    const { owner, repo } = () => {
+      if (ownerworkflow === undefined || repoworkflow === undefined) {
+        return { ownercontext, repocontext };
+      }
+      return { ownerworkflow, repoworkflow };
+    };
+
+
+    // const { owner, repo } = context.repo;
+
     // Get owner and repo from context of payload that triggered the action
-    const { owner, repo } = context.repo;
 
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: true });
