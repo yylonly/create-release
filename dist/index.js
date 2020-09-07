@@ -8793,9 +8793,7 @@ async function run() {
 	const owner = core.getInput('owner', { required: false });
 	const repo = core.getInput('repo', { required: false });
 	
-	if (owner == '' && repo == '')
-		 const { owner, repo } = context.repo
-
+	
     // Get the inputs from the workflow file: https://github.com/actions/toolkit/tree/master/packages/core#inputsoutputs
     const tagName = core.getInput('tag_name', { required: true });
 
