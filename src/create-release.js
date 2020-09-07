@@ -1,25 +1,28 @@
 const core = require('@actions/core');
 const { GitHub, context } = require('@actions/github');
 const fs = require('fs');
+const console = require('console');
 
 async function run() {
   try {
     // Get authenticated GitHub client (Ocktokit): https://github.com/actions/toolkit/tree/master/packages/github#usage
     const github = new GitHub(process.env.GITHUB_TOKEN);
 
-    // Get owner and repo from workflows
+    // const { ownercontext, repocontext } = context.repo;
+    //
+    // // Get owner and repo from workflows
+    // const ownerworkflow = 'aa';
+    // const repoworkflow = 'bb';
+
     const ownerworkflow = core.getInput('owner');
     const repoworkflow = core.getInput('repo');
+    //
 
-    const { ownercontext, repocontext } = context.repo;
-
-    const { owner, repo } = () => {
-      if (ownerworkflow === undefined || repoworkflow === undefined) {
-        return { ownercontext, repocontext };
-      }
-      return { ownerworkflow, repoworkflow };
-    };
-
+    // const { owner, repo } = { owner: ownerworkflow, repo: repoworkflow };
+    const { owner, repo } =
+      ownerworkflow === undefined || repoworkflow === undefined
+        ? context.repo
+        : { owner: ownerworkflow, repo: repoworkflow };
 
     // const { owner, repo } = context.repo;
 
@@ -45,7 +48,17 @@ async function run() {
         core.setFailed(error.message);
       }
     }
+    console.log('print owner and repo:');
+    console.log(owner);
+    console.log(repo);
 
+    console.log('print ownerworkflow and repoworkflow:');
+    console.log(ownerworkflow);
+    console.log(repoworkflow);
+
+    // console.log('print ownercontext and repocontext:');
+    // console.log(ownercontext);
+    // console.log(repocontext);
     // Create a release
     // API Documentation: https://developer.github.com/v3/repos/releases/#create-a-release
     // Octokit Documentation: https://octokit.github.io/rest.js/#octokit-routes-repos-create-release
