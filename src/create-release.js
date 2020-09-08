@@ -56,6 +56,9 @@ async function run() {
     console.log(ownerworkflow);
     console.log(repoworkflow);
 
+    console.log('tag is:');
+    console.log(tag);
+
     // console.log('print ownercontext and repocontext:');
     // console.log(ownercontext);
     // console.log(repocontext);
